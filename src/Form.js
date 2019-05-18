@@ -5,7 +5,7 @@ class Form extends Component {
     constructor(props){
         super(props);
         this.state = {
-            firstName : "",
+            firstName :"",
             lastName : "",
             email :"",
             gender:"",  //dropdown
@@ -17,34 +17,42 @@ class Form extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    changeHandler(event){
-        const { name , value , type , checked } = event.target
-       type === "checkox" ? this.setState({ [name] : checked })  : this.setState({ [name] : value })
+    changeHandler = async function(e){
+        e.preventDefault();
+        const { name , value   } = e.target
+         await this.setState({ 
+            [name] : value 
+        })
+       // type === "checkbox" || "radio" ? this.setState({ [name] : checked })  : this.setState({ [name] : value })
      
     }
-    handleSubmit(){
 
+    handleSubmit(e){
+      e.preventDefault();
+      console.log("Congratulation you have submitted" , this.state);
     }
 
     render() {
         return (
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.handleSubmti}>
 
                 {/* First Name*/}
-                <label>Name</label> &nbsp;&nbsp;
+                <label>Last Name</label> &nbsp;&nbsp;
                   <input type="text" 
                          placeholder="First Name" 
-                         value={this.props.firstName} 
-                         name="firstname" 
-                         onChange={this.changeHandler} >
+                         value={this.state.firstName} 
+                         name="firstName" 
+                         onChange={ this.changeHandler} >
                  </input>&nbsp;
+                 <br></br>
                                                                             
                   {/* Last Name*/}
+                  <label>Last Name</label> &nbsp;&nbsp;
                  <input type="text" 
                          placeholder="Last Name" 
-                         value={this.props.lastName} 
-                         name="lastname" 
+                         value={this.state.lastName} 
+                         name="lastName" 
                          onChange={this.changeHandler} >
                   </input>
                   <br></br>
@@ -53,7 +61,7 @@ class Form extends Component {
                   <label>E-Mail</label> &nbsp;&nbsp;
                   <input type="text" 
                          placeholder="e-mail" 
-                         value={this.props.email} 
+                         value={this.state.email} 
                          name="email" 
                          onChange={this.changeHandler} >
                   </input>
@@ -73,7 +81,7 @@ class Form extends Component {
                   <label>Age</label> &nbsp;&nbsp;
                   <input type="number" 
                          placeholder="age" 
-                         value={this.props.age} 
+                         value={this.state.age} 
                          name="age" 
                          onChange={this.changeHandler} 
                          min="16" max="100" >
@@ -84,7 +92,8 @@ class Form extends Component {
                   <label>Martial Status</label>&nbsp;&nbsp;
                    <input type="radio" 
                          value="Married" 
-                         name="martial" 
+                         name="martial"
+                         checked ={this.state.martial === "Married"} 
                          onChange={this.changeHandler} 
                           >
                   </input><label>Married</label> 
@@ -92,15 +101,17 @@ class Form extends Component {
                   <input type="radio" 
                          value="Unmarried"
                          name="martial" 
+                         checked ={this.state.martial === "Unmarried"} 
                          onChange={this.changeHandler} 
                          >
                   </input><label>Unmarried</label>
-                  {this.state.martial}
+                  
                   <br></br>
                    
-                   {/* Qualification*/}
+                   {/* Qualification Radio Checkbox */} 
                    <label>Qualification</label>&nbsp;&nbsp;
-                   <input type="checkbox" checked 
+                   <input type="checkbox" 
+                        checked ={this.state.qualification === 10}
                          value=" 10 " 
                          name="qualification" 
                          onChange={this.changeHandler} 
@@ -110,6 +121,7 @@ class Form extends Component {
                   <input type="checkbox" 
                          value=" 12 " 
                          name="qualification" 
+                         checked ={this.state.qualification === 12}
                          onChange={this.changeHandler} 
                           >
                   </input><label>12</label> 
@@ -117,11 +129,12 @@ class Form extends Component {
                   <input type="checkbox" 
                          value=" B-Tech " 
                          name="qualification" 
+                         checked ={this.state.qualification === "B-Tech"}
                          onChange={this.changeHandler} 
                           >
                   </input><label>B-tech</label> 
-                  {this.state.qualification}
-                <button>Submit</button>  
+                  
+                <button onClick ={ event => this.handleSubmit(event)}>Submit</button>  
                 </form>
             </div>
         );
